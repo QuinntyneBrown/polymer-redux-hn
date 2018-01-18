@@ -1,0 +1,61 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+
+- url: /
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always
+  http_headers:
+    Link: 
+      </src/components/hn-app.js>;rel=preload;as=script,
+      </src/components/hn-list.js>;rel=preload;as=script,
+      </api/news?page=1>;rel=preload;as=fetch
+
+- url: /(new|ask|show|jobs|favorites)
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always
+  http_headers:
+    Link: 
+      </src/components/hn-app.js>;rel=preload;as=script,
+      </src/components/hn-list.js>;rel=preload;as=script
+
+- url: /item
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always
+  http_headers:
+    Link: 
+      </src/components/hn-app.js>;rel=preload;as=script,
+      </src/components/hn-item.js>;rel=preload;as=script
+
+- url: /user
+  static_files: dist/index.html
+  upload: dist/index.html
+  secure: always
+  http_headers:
+    Link: 
+      </src/components/hn-app.js>;rel=preload;as=script,
+      </src/components/hn-user.js>;rel=preload;as=script
+
+- url: /api/(.*)
+  script: server.app
+  secure: always
+
+- url: /images
+  static_dir: images
+  secure: always
+
+- url: /(.*)
+  static_files: dist/\1
+  upload: dist/.*
+  secure: always
+
+skip_files:
+- es/
+- lib/
+- node_modules/
+- src/
